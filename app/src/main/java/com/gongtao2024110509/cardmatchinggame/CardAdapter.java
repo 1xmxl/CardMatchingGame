@@ -1,4 +1,10 @@
-package com.example.cardmatchinggame;
+/*
+ * 实验五 · RecyclerView 三张牌翻牌游戏应用
+ * 作者：龚涛    学号：2024110509
+ * 应用包名（applicationId / namespace）：com.gongtao2024110509.cardmatchinggame
+ * 版权声明：本工程的源码、资源与文档均由龚涛（2024110509）独立完成。
+ */
+package com.gongtao2024110509.cardmatchinggame;
 
 import android.content.Context;
 import android.view.LayoutInflater;

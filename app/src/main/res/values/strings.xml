@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    实验五 · RecyclerView 三张牌翻牌游戏应用
+    作者：龚涛    学号：2024110509
+    应用包名：com.gongtao2024110509.cardmatchinggame
+-->
 <resources>
     <!-- 提交要求：APP 应用标题为「姓名+学号」 -->
     <string name="app_name">龚涛2024110509</string>
+
+    <!-- 作者署名：在首页与「关于」对话框中都可见 -->
+    <string name="author_signature">作者：龚涛　学号：2024110509</string>
+    <string name="author_package">包名：com.gongtao2024110509.cardmatchinggame</string>
 
     <!-- 首页 -->
     <string name="game_title">翻牌游戏</string>
@@ -14,7 +23,7 @@
     <string name="menu_start">开始游戏</string>
     <string name="menu_about">关于</string>
     <string name="about_title">关于本应用</string>
-    <string name="about_message">RecyclerView 三张牌翻牌游戏\n实验五 · Android 移动应用开发\n姓名：龚涛\n学号：2024110509\n架构：MVC（Card / CardMatchingGame 为模型，RecyclerView + Adapter + XML 为视图，Activity 为控制器）\n竖屏 24 张牌、横屏 30 张牌，三张同图案成一组。</string>
+    <string name="about_message">RecyclerView 三张牌翻牌游戏\n实验五 · Android 移动应用开发\n姓名：龚涛\n学号：2024110509\n应用包名：com.gongtao2024110509.cardmatchinggame\n本应用由龚涛（2024110509）独立完成\n架构：MVC（Card / CardMatchingGame 为模型，RecyclerView + Adapter + XML 为视图，Activity 为控制器）\n竖屏 24 张牌、横屏 30 张牌，三张同图案成一组。</string>
     <string name="dialog_ok">确定</string>
 
     <!-- 游戏界面 -->
