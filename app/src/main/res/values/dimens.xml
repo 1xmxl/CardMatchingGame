@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="activity_padding">12dp</dimen>
+    <dimen name="board_padding">6dp</dimen>
     <dimen name="card_height">72dp</dimen>
     <dimen name="card_margin">4dp</dimen>
+    <dimen name="item_card_height">68dp</dimen>
+    <dimen name="item_card_margin">3dp</dimen>
+    <dimen name="card_corner">12dp</dimen>
+    <dimen name="card_stroke">2dp</dimen>
+    <dimen name="board_corner">14dp</dimen>
     <dimen name="card_text_size">24sp</dimen>
+    <dimen name="face_text_size">26sp</dimen>
     <dimen name="title_text_size">26sp</dimen>
-    <dimen name="body_text_size">16sp</dimen>
-    <dimen name="score_text_size">18sp</dimen>
+    <dimen name="body_text_size">15sp</dimen>
+    <dimen name="score_text_size">17sp</dimen>
+    <dimen name="hint_text_size">14sp</dimen>
 </resources>

@@ -1,93 +1,163 @@
 package com.example.cardmatchinggame;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.TypedValue;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * 实验四控制器（Controller）：用 GridLayout + Button 显示 24 张牌。
- * 实验五将替换为 RecyclerView + Adapter（见 Dev 分支）。
+ * 控制器（Controller）：三张牌翻牌游戏页面。
+ *
+ * <p>职责：读取资源配置决定牌数与列数 → 创建 Model → 装配 RecyclerView + Adapter →
+ * 接收 Adapter 的点击回调并转发给 Model → 刷新视图与状态栏 → 处理延时翻回、通关对话框、
+ * 重新开始与状态保存。Activity 中不写任何游戏规则，规则都在 CardMatchingGame / Card 中。</p>
  */
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements CardAdapter.OnCardClickListener {
 
-    private static final int CARD_COUNT = 24;
-    private static final int COLUMN_COUNT = 4;
+    /** 三张牌翻开后停留展示的时间（毫秒），便于玩家看清本次结果 */
+    private static final long PEEK_DELAY_MS = 700;
 
     private CardMatchingGame game;
-    private final List<Button> cardButtons = new ArrayList<>();
+    private CardAdapter adapter;
     private TextView scoreView;
-    private String[] faces;
+    private TextView stepsView;
+    private TextView modeView;
+    private int cardCount;
+
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Runnable settleTask = () -> {
+        game.settle();
+        adapter.refresh();
+        updateStatusBar();
+        checkGameOver();
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // 竖屏 / 横屏使用不同的资源目录（values / values-land），实现不同牌数与列数
+        cardCount = getResources().getInteger(R.integer.card_count);
+        int span = getResources().getInteger(R.integer.grid_span);
+
         scoreView = findViewById(R.id.text_score);
-        faces = getResources().getStringArray(R.array.card_faces);
-        game = new CardMatchingGame(CARD_COUNT);
+        stepsView = findViewById(R.id.text_steps);
+        modeView = findViewById(R.id.text_mode);
+        modeView.setText(getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE
+                ? R.string.orientation_landscape
+                : R.string.orientation_portrait);
 
-        GridLayout grid = findViewById(R.id.grid_cards);
-        grid.setColumnCount(COLUMN_COUNT);
-        int height = getResources().getDimensionPixelSize(R.dimen.card_height);
-        int margin = getResources().getDimensionPixelSize(R.dimen.card_margin);
+        game = new CardMatchingGame(cardCount);
+        adapter = new CardAdapter(this, game, this);
 
-        for (int i = 0; i < CARD_COUNT; i++) {
-            Button button = new Button(this);
-            GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
-            lp.width = 0;
-            lp.height = height;
-            lp.columnSpec = GridLayout.spec(i % COLUMN_COUNT, 1f);
-            lp.rowSpec = GridLayout.spec(i / COLUMN_COUNT);
-            lp.setMargins(margin, margin, margin, margin);
-            button.setLayoutParams(lp);
-            button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    getResources().getDimension(R.dimen.card_text_size));
-            button.setAllCaps(false);
-            final int index = i;
-            button.setOnClickListener(v -> {
-                game.chooseCardAtIndex(index);
-                refresh();
-            });
-            cardButtons.add(button);
-            grid.addView(button);
+        RecyclerView recyclerView = findViewById(R.id.recycler_cards);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, span));
+        recyclerView.setAdapter(adapter);
+
+        Button resetButton = findViewById(R.id.button_reset);
+        resetButton.setOnClickListener(v -> restart());
+
+        if (savedInstanceState != null) {
+            restoreState(savedInstanceState);
         }
-
-        findViewById(R.id.button_reset).setOnClickListener(v -> {
-            game = new CardMatchingGame(CARD_COUNT);
-            refresh();
-        });
-
-        refresh();
+        updateStatusBar();
     }
 
-    private void refresh() {
-        for (int i = 0; i < cardButtons.size(); i++) {
-            Card card = game.cardAtIndex(i);
-            Button button = cardButtons.get(i);
-            if (card.isFaceUp() || card.isMatched()) {
-                button.setText(faces[card.getGroupId() % faces.length]);
-                button.setBackgroundColor(ContextCompat.getColor(this,
-                        card.isMatched() ? R.color.card_matched : R.color.card_front));
-            } else {
-                button.setText(getString(R.string.card_back));
-                button.setBackgroundColor(ContextCompat.getColor(this, R.color.card_back_color));
-            }
-            button.setContentDescription(getString(R.string.card_content_description, i + 1));
-            button.setEnabled(!card.isMatched());
+    /** Adapter 点击回调：只转发给 Model，再统一刷新视图 */
+    @Override
+    public void onCardClick(int position) {
+        if (game.isPending()) {
+            return;
         }
+        game.chooseCardAtIndex(position);
+        adapter.refresh();
+        updateStatusBar();
+        if (game.isPending()) {
+            handler.postDelayed(settleTask, PEEK_DELAY_MS);
+        } else {
+            checkGameOver();
+        }
+    }
+
+    /** 重新开始：调用 Model 新增的 reset()，并取消尚未执行的翻回任务 */
+    private void restart() {
+        handler.removeCallbacks(settleTask);
+        game.reset();
+        adapter.setGame(game);
+        updateStatusBar();
+    }
+
+    private void updateStatusBar() {
         scoreView.setText(getString(R.string.score_format, game.getScore()));
-        if (game.isGameOver()) {
-            Toast.makeText(this, R.string.game_over, Toast.LENGTH_SHORT).show();
+        stepsView.setText(getString(R.string.steps_format, game.getSteps()));
+    }
+
+    private void checkGameOver() {
+        if (!game.isGameOver()) {
+            return;
         }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.game_over_title)
+                .setMessage(getString(R.string.game_over_message, game.getSteps(), game.getScore()))
+                .setPositiveButton(R.string.play_again, (dialog, which) -> restart())
+                .setNegativeButton(R.string.back_to_main, (dialog, which) -> finish())
+                .setCancelable(false)
+                .show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        // 若正等待翻回，先收尾再保存，避免恢复后残留三张无法点击的正面牌
+        if (game.isPending()) {
+            handler.removeCallbacks(settleTask);
+            game.settle();
+        }
+        super.onSaveInstanceState(outState);
+        outState.putInt(getString(R.string.key_card_count), cardCount);
+        outState.putInt(getString(R.string.key_score), game.getScore());
+        outState.putInt(getString(R.string.key_steps), game.getSteps());
+
+        int[] groups = new int[cardCount];
+        boolean[] faceUp = new boolean[cardCount];
+        boolean[] matched = new boolean[cardCount];
+        for (int i = 0; i < cardCount; i++) {
+            Card card = game.cardAtIndex(i);
+            groups[i] = card.getGroupId();
+            faceUp[i] = card.isFaceUp();
+            matched[i] = card.isMatched();
+        }
+        outState.putIntArray(getString(R.string.key_groups), groups);
+        outState.putBooleanArray(getString(R.string.key_face_up), faceUp);
+        outState.putBooleanArray(getString(R.string.key_matched), matched);
+    }
+
+    /** 横竖屏切换时牌数不同，只有同一方向的重建才恢复棋盘 */
+    private void restoreState(@NonNull Bundle state) {
+        if (state.getInt(getString(R.string.key_card_count)) != cardCount) {
+            return;
+        }
+        game.restore(
+                state.getIntArray(getString(R.string.key_groups)),
+                state.getBooleanArray(getString(R.string.key_face_up)),
+                state.getBooleanArray(getString(R.string.key_matched)),
+                state.getInt(getString(R.string.key_score)),
+                state.getInt(getString(R.string.key_steps)));
+        adapter.refresh();
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacks(settleTask);
+        super.onDestroy();
     }
 }

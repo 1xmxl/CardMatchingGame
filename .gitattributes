@@ -1,0 +1,6 @@
+gradlew text eol=lf
+*.bat text eol=crlf
+*.java text eol=lf
+*.xml text eol=lf
+*.gradle text eol=lf
+*.jar binary

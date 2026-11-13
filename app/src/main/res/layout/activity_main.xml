@@ -16,11 +16,31 @@
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/text_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/main_hint"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/body_text_size" />
+
     <Button
         android:id="@+id/button_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/start_game" />
+
+    <TextView
+        android:id="@+id/text_menu_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/menu_hint"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/hint_text_size" />
 
 </LinearLayout>
