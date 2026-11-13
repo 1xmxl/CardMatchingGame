@@ -170,8 +170,13 @@ public class CardMatchingGame {
             cards.add(new Card(groupId));
         }
         for (int i = 0; i < cardCount; i++) {
-            cards.get(i).setFaceUp(faceUp != null && faceUp.length == cardCount && faceUp[i]);
-            cards.get(i).setMatched(matched != null && matched.length == cardCount && matched[i]);
+            Card card = cards.get(i);
+            card.setFaceUp(faceUp != null && faceUp.length == cardCount && faceUp[i]);
+            card.setMatched(matched != null && matched.length == cardCount && matched[i]);
+            // 重建「已翻开但尚未判定」的选中列表，否则恢复后前两张正面牌会永远无法收尾
+            if (card.isFaceUp() && !card.isMatched()) {
+                chosen.add(i);
+            }
         }
         this.score = score;
         this.steps = steps;
