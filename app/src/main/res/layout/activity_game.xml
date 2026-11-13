@@ -6,6 +6,7 @@
     android:padding="@dimen/activity_padding"
     android:background="@color/window_background">
 
+    <!-- 状态栏：得分、回合数、重新开始 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +23,16 @@
             android:textSize="@dimen/score_text_size"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/text_steps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/steps_initial"
+            android:textColor="@color/text_dark"
+            android:textSize="@dimen/score_text_size"
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/button_reset"
             android:layout_width="wrap_content"
@@ -29,12 +40,34 @@
             android:text="@string/reset_game" />
     </LinearLayout>
 
-    <GridLayout
-        android:id="@+id/grid_cards"
+    <!-- 当前方向对应的牌数 / 列数说明 -->
+    <TextView
+        android:id="@+id/text_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/orientation_portrait"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/hint_text_size" />
+
+    <TextView
+        android:id="@+id/text_rule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mode_hint"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/hint_text_size" />
+
+    <!-- 视图层：由 RecyclerView + GridLayoutManager 承载所有牌 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_cards"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="@dimen/activity_padding"
-        android:columnCount="4"
-        android:useDefaultMargins="false" />
+        android:padding="@dimen/board_padding"
+        android:clipToPadding="false"
+        android:background="@drawable/bg_board"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

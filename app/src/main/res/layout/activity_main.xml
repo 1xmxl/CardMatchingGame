@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 实验五 · 作者：龚涛 学号：2024110509 · 包名 com.gongtao2024110509.cardmatchinggame -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,11 +17,53 @@
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/text_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/main_hint"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/body_text_size" />
+
     <Button
         android:id="@+id/button_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/start_game" />
+
+    <TextView
+        android:id="@+id/text_menu_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/menu_hint"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/hint_text_size" />
+
+    <!-- 作者署名：首页常驻显示，明确标识本应用由谁完成 -->
+    <TextView
+        android:id="@+id/text_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/author_signature"
+        android:textColor="@color/text_dark"
+        android:textSize="@dimen/hint_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_author_package"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="@string/author_package"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/hint_text_size" />
 
 </LinearLayout>

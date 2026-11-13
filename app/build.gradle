@@ -1,13 +1,19 @@
+/*
+ * 实验五 · RecyclerView 三张牌翻牌游戏应用
+ * 作者：龚涛    学号：2024110509
+ * 应用包名（applicationId / namespace）：com.gongtao2024110509.cardmatchinggame
+ */
 plugins {
     id 'com.android.application'
 }
 
 android {
-    namespace 'com.example.cardmatchinggame'
+    // 包名中包含作者姓名拼音与学号，明确标识本应用由龚涛（2024110509）完成
+    namespace 'com.gongtao2024110509.cardmatchinggame'
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.example.cardmatchinggame"
+        applicationId "com.gongtao2024110509.cardmatchinggame"
         minSdk 26
         targetSdk 35
         versionCode 1

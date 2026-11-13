@@ -1,16 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    实验五 · RecyclerView 三张牌翻牌游戏应用
+    作者：龚涛    学号：2024110509
+    应用包名：com.gongtao2024110509.cardmatchinggame
+-->
 <resources>
-    <string name="app_name">翻牌配对游戏</string>
+    <!-- 提交要求：APP 应用标题为「姓名+学号」 -->
+    <string name="app_name">龚涛2024110509</string>
+
+    <!-- 作者署名：在首页与「关于」对话框中都可见 -->
+    <string name="author_signature">作者：龚涛　学号：2024110509</string>
+    <string name="author_package">包名：com.gongtao2024110509.cardmatchinggame</string>
+
+    <!-- 首页 -->
     <string name="game_title">翻牌游戏</string>
-    <string name="main_title">翻牌配对游戏</string>
+    <string name="main_title">三张牌翻牌游戏</string>
+    <string name="main_hint">连续翻开三张图案相同的牌即可消除，全部消除即通关。</string>
+    <string name="menu_hint">点击右上角菜单中的「关于」查看本应用信息。</string>
     <string name="start_game">开始游戏</string>
+
+    <!-- 菜单与对话框 -->
+    <string name="menu_start">开始游戏</string>
+    <string name="menu_about">关于</string>
+    <string name="about_title">关于本应用</string>
+    <string name="about_message">RecyclerView 三张牌翻牌游戏\n实验五 · Android 移动应用开发\n姓名：龚涛\n学号：2024110509\n应用包名：com.gongtao2024110509.cardmatchinggame\n本应用由龚涛（2024110509）独立完成\n架构：MVC（Card / CardMatchingGame 为模型，RecyclerView + Adapter + XML 为视图，Activity 为控制器）\n竖屏 24 张牌、横屏 30 张牌，三张同图案成一组。</string>
+    <string name="dialog_ok">确定</string>
+
+    <!-- 游戏界面 -->
     <string name="reset_game">重新开始</string>
     <string name="score_format">得分：%1$d</string>
+    <string name="steps_format">回合：%1$d</string>
     <string name="score_initial">得分：0</string>
+    <string name="steps_initial">回合：0</string>
+    <string name="mode_hint">规则：三张同图案成一组</string>
+    <string name="orientation_portrait">竖屏 · 24 张 · 4 列</string>
+    <string name="orientation_landscape">横屏 · 30 张 · 6 列</string>
     <string name="card_back">★</string>
     <string name="card_content_description">第 %1$d 张牌</string>
-    <string name="game_over">恭喜，全部配对完成！</string>
 
+    <!-- 通关对话框 -->
+    <string name="game_over_title">通关</string>
+    <string name="game_over_message">共 %1$d 回合，最终得分 %2$d 分。</string>
+    <string name="play_again">再来一局</string>
+    <string name="back_to_main">返回首页</string>
+
+    <!-- 状态保存使用的键，不属于界面文字，同样不硬编码在 Java 代码中 -->
+    <string name="key_card_count" translatable="false">state_card_count</string>
+    <string name="key_score" translatable="false">state_score</string>
+    <string name="key_steps" translatable="false">state_steps</string>
+    <string name="key_groups" translatable="false">state_groups</string>
+    <string name="key_face_up" translatable="false">state_face_up</string>
+    <string name="key_matched" translatable="false">state_matched</string>
+
+    <!-- 牌面图案：全部由字符串资源提供，布局与代码中不出现字面量 -->
     <string-array name="card_faces">
         <item>🍎</item>
         <item>🍌</item>

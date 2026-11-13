@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 竖屏：24 张牌（8 组 × 3 张），4 列 × 6 行 -->
+    <integer name="card_count">24</integer>
+    <integer name="grid_span">4</integer>
+</resources>

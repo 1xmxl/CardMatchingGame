@@ -4,11 +4,19 @@
     <color name="primary_dark">#303F9F</color>
     <color name="accent">#FF4081</color>
     <color name="window_background">#F3F5FA</color>
+    <color name="board_background">#E8ECF8</color>
     <color name="text_dark">#212121</color>
+    <color name="text_muted">#5A6577</color>
     <color name="text_light">#FFFFFF</color>
+
     <color name="card_back_color">#3F51B5</color>
+    <color name="card_back_stroke">#283593</color>
     <color name="card_front">#FFFFFF</color>
-    <color name="card_matched">#C8E6C9</color>
+    <color name="card_front_stroke">#5C6BC0</color>
+    <color name="card_matched">#D7F2DC</color>
+    <color name="card_matched_stroke">#66BB6A</color>
+    <color name="face_text_color">#263238</color>
+    <color name="matched_text_color">#2E7D32</color>
     <color name="card_border">#B0BEC5</color>
     <color name="ic_launcher_background">#3F51B5</color>
 </resources>

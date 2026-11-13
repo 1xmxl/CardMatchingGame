@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 横屏可用高度较小，缩小单张牌高度使 5 行完整显示 -->
+    <dimen name="item_card_height">56dp</dimen>
+    <dimen name="face_text_size">22sp</dimen>
+</resources>
